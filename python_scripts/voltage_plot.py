@@ -36,4 +36,4 @@ ax.set_title('Voltage vs time')
 plt.legend(loc = 'upper right') # legend location can be changed
  
 #ax.text(0.4,1.5, 'annotate the plot if needed')
-plt.savefig('predict_voltage2.png')
+plt.savefig('graphs/predict_voltage2.png')

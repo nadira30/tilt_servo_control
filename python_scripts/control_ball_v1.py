@@ -153,7 +153,7 @@ try:
         else:
             print(f"Ball stationnary at v = {vol0}V where servo.angle = {servo.angle}")
             
-        file = open('sensor_voltage2.txt', 'a')
+        file = open('recorded_data/sensor_voltage2.txt', 'a')
         file.write(str(elapsed_time)+','+str(vol0)+ ',' +str(servo.angle)+ '\n')
         if elapsed_time >= 120:
             my_Test= False
