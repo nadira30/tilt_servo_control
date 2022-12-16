@@ -12,7 +12,8 @@ servo = AngularServo(20, min_angle =-180, max_angle=180, min_pulse_width= 0.0005
 servo.angle=100 # with ball at 0V
 
 # mass of the ball i g
-m= 228.3
+minitial= 228.3
+mused= 
 
 
 #set pins
@@ -153,10 +154,10 @@ try:
         else:
             print(f"Ball stationnary at v = {vol0}V where servo.angle = {servo.angle}")
             
-        file = open('sensor_voltage.txt', 'w')
-        file.write(str(elapsed_time)+','+str(vol0)+ '\n')
+        file = open('sensor_voltage.txt', 'a')
+        file.write(str(elapsed_time)+','+str(vol0)+ ',' +str(servo.angle)+ '\n')
         if elapsed_time >= 180:
-            my_test= False
+            my_Test= False
     file.close()
 
 except KeyboardInterrupt:
@@ -165,4 +166,3 @@ except KeyboardInterrupt:
 #     
 finally:
     GPIO.cleanup()
-
