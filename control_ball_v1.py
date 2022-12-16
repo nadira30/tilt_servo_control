@@ -13,8 +13,7 @@ servo.angle=100 # with ball at 0V
 
 # mass of the ball i g
 minitial= 228.3
-mused= 
-
+mused= 65.28
 
 #set pins
 CS= 5                                                                      
@@ -146,18 +145,20 @@ try:
         # control ball
         # angle varies from -180 to 180 degrees, clockwise = positive direction
         if vol0 < 2.4:
-            servo.angle=(vol0*60/2.4)
+            servo.angle=(vol0*55/2.4)
             time.sleep(0.5)
         elif vol0 > 2.6:
-            servo.angle = (vol0*60)/2.6
+            servo.angle = (vol0*55)/2.6
             time.sleep(0.5)
         else:
             print(f"Ball stationnary at v = {vol0}V where servo.angle = {servo.angle}")
             
-        file = open('sensor_voltage.txt', 'a')
+        file = open('sensor_voltage2.txt', 'a')
         file.write(str(elapsed_time)+','+str(vol0)+ ',' +str(servo.angle)+ '\n')
-        if elapsed_time >= 180:
+        if elapsed_time >= 120:
             my_Test= False
+            
+        time.sleep(2)
     file.close()
 
 except KeyboardInterrupt:
