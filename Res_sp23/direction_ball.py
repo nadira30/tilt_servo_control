@@ -127,6 +127,8 @@ try:
     previous = 0
     current = 0
     my_Test = True
+    clkz=False
+    ccz=False
 
     while my_Test:
 
@@ -141,7 +143,8 @@ try:
         change_vol = current - previous
         print(f"change: {change_vol}")
         if change_vol > 0.15:
-            while True: 
+            clkz = True
+            while clkz:
                 control_motor().clockwise()
             print(" bal rolling to the left")
         # while change_vol < 0.15 or change_vol > -0.15:
@@ -149,7 +152,9 @@ try:
             # control_motor().counterclockwise()
 #             counterclockwise()
         else:
-            while True:
+            clkz=False
+            ccz= True
+            while ccz:
                 control_motor().counterclockwise()
             print( "bal rolling to the right")
              # control_motor().counterclockwise()
