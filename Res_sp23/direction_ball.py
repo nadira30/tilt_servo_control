@@ -143,6 +143,7 @@ try:
         change_vol = current - previous
         print(f"change: {change_vol}")
         if change_vol > 0.15:
+            print(change_vol)
             clkz = True
             while clkz:
                 control_motor().clockwise()
@@ -152,6 +153,7 @@ try:
             # control_motor().counterclockwise()
 #             counterclockwise()
         else:
+            print(change_vol)
             clkz=False
             ccz= True
             while ccz:
