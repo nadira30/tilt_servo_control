@@ -7,7 +7,7 @@ vol0 = []
  
 # read in the data
  
-lines= np.loadtxt('sensor_voltage.txt', delimiter=',')
+lines= np.loadtxt('sensor_voltage2.txt', delimiter=',')
 for line in lines:
     time_data.append(line[0]) # the first item in row is the time
     vol0.append(line[1])
@@ -26,7 +26,7 @@ ax = fig.add_subplot(1,1,1)
 # ax.set_ylim(ymin=0)
  
 # make an xy scatter plot
-plt.scatter(time_datavol0,color='red', marker='.', label='channel 1')
+plt.scatter(time_data,vol0,color='red', marker='.', label='channel 1')
  
  
 # label the axes etc
@@ -36,4 +36,4 @@ ax.set_title('Voltage vs time')
 plt.legend(loc = 'upper right') # legend location can be changed
  
 #ax.text(0.4,1.5, 'annotate the plot if needed')
-plt.savefig('predict_voltage.png')
+plt.savefig('graphs/predict_voltage2.png')
