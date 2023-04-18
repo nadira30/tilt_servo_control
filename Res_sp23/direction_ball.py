@@ -140,16 +140,16 @@ try:
             current = vol[i]
         change_vol = current - previous
         print(f"change: {change_vol}")
-        if change_vol > 0.15:
+        while change_vol > 0.15:
             control_motor().clockwise()
             print(" bal rolling to the left")
         # while change_vol < 0.15 or change_vol > -0.15:
         #     print("ball not moving")
             # control_motor().counterclockwise()
 #             counterclockwise()
-#         else:
-#             print( "bal rolling to the right")
-#             servo.angle = -180
+        else:
+             print( "bal rolling to the right")
+             control_motor().counterclockwise()
 
 # Block determining resistance
 #         if vol0 < 5:
