@@ -141,11 +141,11 @@ try:
         change_vol = current - previous
         print(f"change: {change_vol}")
         while change_vol > 0.15:
-            control_motor.clockwise()
+            control_motor().clockwise()
             print(" bal rolling to the left")
         while change_vol < 0.15 or change_vol > -0.15:
             print("ball not moving")
-            control_motor.counterclockwise()
+            control_motor().counterclockwise()
 #             counterclockwise()
 #         else:
 #             print( "bal rolling to the right")
