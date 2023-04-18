@@ -141,14 +141,17 @@ try:
         change_vol = current - previous
         print(f"change: {change_vol}")
         if change_vol > 0.15:
-            control_motor().clockwise()
+            while True: 
+                control_motor().clockwise()
             print(" bal rolling to the left")
         # while change_vol < 0.15 or change_vol > -0.15:
         #     print("ball not moving")
             # control_motor().counterclockwise()
 #             counterclockwise()
         else:
-             print( "bal rolling to the right")
+            while True:
+                control_motor().counterclockwise()
+            print( "bal rolling to the right")
              # control_motor().counterclockwise()
 
 # Block determining resistance
