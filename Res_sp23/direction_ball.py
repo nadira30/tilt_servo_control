@@ -1,7 +1,5 @@
 import RPi.GPIO as GPIO
 import time
-import decimal
-import numpy as np
 from time import sleep
 from dc_motor import control_motor
 
@@ -143,23 +141,24 @@ try:
         change_vol = current - previous
         print(f"change: {change_vol}")
         if change_vol > 0.15:
-            print(change_vol)
-            clkz = True
-            while clkz:
-                control_motor().clockwise()
+            # print(change_vol)
+            # clkz = True
+            # while clkz:
+            control_motor().clockwise()
+            time.sleep(3)
             print(" bal rolling to the left")
         # while change_vol < 0.15 or change_vol > -0.15:
         #     print("ball not moving")
             # control_motor().counterclockwise()
 #             counterclockwise()
         else:
-            print(change_vol)
-            clkz=False
-            ccz= True
-            while ccz:
-                control_motor().counterclockwise()
+            # print(change_vol)
+            # clkz=False
+            # ccz= True
+            # while ccz:
+            control_motor().counterclockwise()
+            time.sleep(3)
             print( "bal rolling to the right")
-             # control_motor().counterclockwise()
 
 # Block determining resistance
 #         if vol0 < 5:
