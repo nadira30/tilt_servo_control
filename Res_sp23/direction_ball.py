@@ -17,6 +17,30 @@ GPIO.setup(CS, GPIO.OUT)
 GPIO.setup(CLK, GPIO.OUT)
 GPIO.setup(DO, GPIO.IN)
 GPIO.setup(Din, GPIO.OUT)
+# set GPIO pins
+pin_EN = 20
+pin_1A = 21
+pin_2A = 26
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(pin_EN, GPIO.OUT)
+GPIO.setup(pin_1A, GPIO.OUT)
+GPIO.setup(pin_2A, GPIO.OUT)
+
+def clockwise():
+    try:
+        GPIO.output(pin_EN, True)
+        GPIO.output(pin_2A, True)
+    except Exception as e:
+        print(e)
+
+def counterclockwise():
+    try:
+        GPIO.output(pin_2A, True)
+        GPIO.output(pin_1A, True)
+    except Exception as e:
+        print(e)
+
 
 
 def readADC_channel(channel):
@@ -144,7 +168,7 @@ try:
             # print(change_vol)
             # clkz = True
             # while clkz:
-            control_motor().clockwise()
+            clockwise()
             time.sleep(3)
             print(" bal rolling to the left")
         # while change_vol < 0.15 or change_vol > -0.15:
@@ -156,7 +180,7 @@ try:
             # clkz=False
             # ccz= True
             # while ccz:
-            control_motor().counterclockwise()
+            counterclockwise()
             time.sleep(3)
             print( "bal rolling to the right")
 
