@@ -19,7 +19,7 @@ m= 228.3
 CS= 5                                                                      
 CLK= 6
 DO= 13
-Din= 21
+Din= 16
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(CS, GPIO.OUT)

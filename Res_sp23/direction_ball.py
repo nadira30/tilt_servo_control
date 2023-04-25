@@ -13,34 +13,33 @@ DO = 13
 Din = 16
 
 GPIO.setmode(GPIO.BCM)
+
 GPIO.setup(CS, GPIO.OUT)
 GPIO.setup(CLK, GPIO.OUT)
 GPIO.setup(DO, GPIO.IN)
 GPIO.setup(Din, GPIO.OUT)
 # set GPIO pins
-pin_EN = 20
-pin_1A = 21
-pin_2A = 26
+pwm1 = 20
+pwm2 = 21
+D1 = 26
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin_EN, GPIO.OUT)
-GPIO.setup(pin_1A, GPIO.OUT)
-GPIO.setup(pin_2A, GPIO.OUT)
+GPIO.setup(pwm1, GPIO.OUT)
+GPIO.setup(pwm2, GPIO.OUT)
+GPIO.setup(D1, GPIO.OUT)
+p1=GPIO.PWM(D1,500)
+p1.start(75)
+
+def set_motor(A1,A2):
+    GPIO.output(pwm1,A1)
+    GPIO.output(pwm2,A2)
 
 def clockwise():
-    try:
-        GPIO.output(pin_EN, True)
-        GPIO.output(pin_2A, True)
-    except Exception as e:
-        print(e)
+    GPIO.output(pwm1, 1)
+    GPIO.output(pwm2, 0)
 
 def counterclockwise():
-    try:
-        GPIO.output(pin_2A, True)
-        GPIO.output(pin_1A, True)
-    except Exception as e:
-        print(e)
-
+    GPIO.output(pwm1, 0)
+    GPIO.output(pwm2, 1)
 
 
 def readADC_channel(channel):
@@ -149,47 +148,30 @@ try:
     previous = 0
     current = 0
     my_Test = True
-    clkz=False
-    ccz=False
 
     while my_Test:
 
         d0 = readADC_channel('1')
         # Convert the digital output of the IC into a voltage
         vol0 = calc_volts(d0)
-        vol.append(vol0)
-
-        for i in range(0, len(vol)):
-            previous = vol[i - 1]
-            current = vol[i]
-        change_vol = current - previous
-        print(f"change: {change_vol}")
-        if change_vol > 0.15:
-            # print(change_vol)
-            # clkz = True
-            # while clkz:
-            clockwise()
-            time.sleep(3)
-            print(" bal rolling to the left")
-        # while change_vol < 0.15 or change_vol > -0.15:
-        #     print("ball not moving")
-            # control_motor().counterclockwise()
-#             counterclockwise()
-        else:
-            # print(change_vol)
-            # clkz=False
-            # ccz= True
-            # while ccz:
+        print(vol0)
+        
+#         p1.ChangeDutyCycle(vol0*75/5)
+        if vol0 < 2.4:
+            p1.ChangeDutyCycle(60)
             counterclockwise()
-            time.sleep(3)
-            print( "bal rolling to the right")
+            time.sleep(0.001)
+        elif vol0>2.6:
+            p1.ChangeDutyCycle(vol0*75/5)
+            clockwise()
+            time.sleep(0.001)
+#             print( "bal rolling to the right")
+        else:
+            print("ball at the middle")
+            time.sleep(1)
+            
+        
 
-# Block determining resistance
-#         if vol0 < 5:
-#             R = resistance(vol0)
-#             print('res is ', R)
-#         else:
-#             continue
 
 except KeyboardInterrupt:
     print('Game over, Man!')
