@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 from time import sleep
 from dc_motor import control_motor
-
+import numpy as np
 # mass of the ball i g
 m = 228.3
 
@@ -11,6 +11,10 @@ CS = 5
 CLK = 6
 DO = 13
 Din = 16
+
+K_PL=40
+K_PR=30
+
 
 GPIO.setmode(GPIO.BCM)
 
@@ -157,19 +161,22 @@ try:
         print(vol0)
         
 #         p1.ChangeDutyCycle(vol0*75/5)
-        if vol0 < 2.4:
-            p1.ChangeDutyCycle(60)
+# c*delta
+        delta= vol0-2.5
+        
+        if delta<0:
+            duty_cycle=np.abs(delta)*K_PR
+            p1.ChangeDutyCycle(duty_cycle)
             counterclockwise()
-            time.sleep(0.001)
-        elif vol0>2.6:
-            p1.ChangeDutyCycle(vol0*75/5)
+            
+        elif delta>0:
+            duty_cycle=np.abs(delta)*K_PL
+            p1.ChangeDutyCycle(duty_cycle)
             clockwise()
-            time.sleep(0.001)
 #             print( "bal rolling to the right")
         else:
             print("ball at the middle")
-            time.sleep(1)
-            
+            time.sleep(0.001)           
         
 
 
