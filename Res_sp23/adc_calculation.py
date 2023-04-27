@@ -1,10 +1,5 @@
 import RPi.GPIO as GPIO
 import time
-from time import sleep
-from dc_motor import control_motor
-import numpy as np
-# mass of the ball i g
-m = 228.3
 
 # set pins
 CS = 5
@@ -12,38 +7,12 @@ CLK = 6
 DO = 13
 Din = 16
 
-K_PL=40
-K_PR=30
-
-
-GPIO.setmode(GPIO.BCM)
-
 GPIO.setup(CS, GPIO.OUT)
 GPIO.setup(CLK, GPIO.OUT)
 GPIO.setup(DO, GPIO.IN)
 GPIO.setup(Din, GPIO.OUT)
-# set GPIO pins
-pwm1 = 20
-pwm2 = 21
-D1 = 26
 
-GPIO.setup(pwm1, GPIO.OUT)
-GPIO.setup(pwm2, GPIO.OUT)
-GPIO.setup(D1, GPIO.OUT)
-p1=GPIO.PWM(D1,500)
-p1.start(75)
-
-def set_motor(A1,A2):
-    GPIO.output(pwm1,A1)
-    GPIO.output(pwm2,A2)
-
-def clockwise():
-    GPIO.output(pwm1, 1)
-    GPIO.output(pwm2, 0)
-
-def counterclockwise():
-    GPIO.output(pwm1, 0)
-    GPIO.output(pwm2, 1)
+GPIO.setmode(GPIO.BCM)
 
 
 def readADC_channel(channel):
@@ -139,50 +108,3 @@ def calc_volts(d):
     # to only display significant figures!
     volts = round(volts, 2)
     return volts
-
-
-def resistance(volts):
-    R = (volts * 9940) / (5 - volts)
-    return R
-
-
-try:
-    start_time = time.time()
-    vol = []
-    previous = 0
-    current = 0
-    my_Test = True
-
-    while my_Test:
-
-        d0 = readADC_channel('1')
-        # Convert the digital output of the IC into a voltage
-        vol0 = calc_volts(d0)
-        print(vol0)
-        
-#         p1.ChangeDutyCycle(vol0*75/5)
-# c*delta
-        delta= vol0-2.5
-        
-        if delta<0:
-            duty_cycle=np.abs(delta)*K_PR
-            p1.ChangeDutyCycle(duty_cycle)
-            counterclockwise()
-            
-        elif delta>0:
-            duty_cycle=np.abs(delta)*K_PL
-            p1.ChangeDutyCycle(duty_cycle)
-            clockwise()
-#             print( "bal rolling to the right")
-        else:
-            print("ball at the middle")
-            time.sleep(0.001)           
-        
-
-
-except KeyboardInterrupt:
-    print('Game over, Man!')
-    GPIO.cleanup()
-#     
-finally:
-    GPIO.cleanup()
