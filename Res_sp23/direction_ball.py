@@ -13,7 +13,7 @@ DO = 13
 Din = 16
 
 K_PL=40
-K_PR=30
+K_PR=35
 
 
 GPIO.setmode(GPIO.BCM)
@@ -32,10 +32,6 @@ GPIO.setup(pwm2, GPIO.OUT)
 GPIO.setup(D1, GPIO.OUT)
 p1=GPIO.PWM(D1,500)
 p1.start(75)
-
-def set_motor(A1,A2):
-    GPIO.output(pwm1,A1)
-    GPIO.output(pwm2,A2)
 
 def clockwise():
     GPIO.output(pwm1, 1)
@@ -141,11 +137,6 @@ def calc_volts(d):
     return volts
 
 
-def resistance(volts):
-    R = (volts * 9940) / (5 - volts)
-    return R
-
-
 try:
     start_time = time.time()
     vol = []
@@ -159,16 +150,14 @@ try:
         # Convert the digital output of the IC into a voltage
         vol0 = calc_volts(d0)
         print(vol0)
-        
-#         p1.ChangeDutyCycle(vol0*75/5)
-# c*delta
+
         delta= vol0-2.5
-        
+
         if delta<0:
             duty_cycle=np.abs(delta)*K_PR
             p1.ChangeDutyCycle(duty_cycle)
             counterclockwise()
-            
+
         elif delta>0:
             duty_cycle=np.abs(delta)*K_PL
             p1.ChangeDutyCycle(duty_cycle)
@@ -176,13 +165,12 @@ try:
 #             print( "bal rolling to the right")
         else:
             print("ball at the middle")
-            time.sleep(0.001)           
-        
+            time.sleep(0.001)
 
 
 except KeyboardInterrupt:
     print('Game over, Man!')
     GPIO.cleanup()
-#     
+
 finally:
     GPIO.cleanup()
