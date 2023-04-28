@@ -1,33 +1,25 @@
 # DC motor Control w/ RPi motor driver board
 
 import RPi.GPIO as GPIO
-import time
 
 
 class control_motor:
     def __init__(self):
         # set GPIO pins
-        self.pin_EN = 20
-        self.pin_1A = 21
-        self.pin_2A = 26
+        self.pwm1 = 20
+        self.pwm2 = 21
+        self.D1 = 26
 
-        run_time = 5  # seconds
-
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.pin_EN, GPIO.OUT)
-        GPIO.setup(self.pin_1A, GPIO.OUT)
-        GPIO.setup(self.pin_2A, GPIO.OUT)
+        GPIO.setup(self.pwm1, GPIO.OUT)
+        GPIO.setup(self.pwm2, GPIO.OUT)
+        GPIO.setup(self.D1, GPIO.OUT)
+        self.p1 = GPIO.PWM(self.D1, 500)
+        self.p1.start(75)
 
     def clockwise(self):
-        try:
-            GPIO.output(self.pin_EN, True)
-            GPIO.output(self.pin_2A, True)
-        except Exception as e:
-            print(e)
+        GPIO.output(self.pwm1, 1)
+        GPIO.output(self.pwm2, 0)
 
     def counterclockwise(self):
-        try:
-            GPIO.output(self.pin_2A, True)
-            GPIO.output(self.pin_1A, True)
-        except Exception as e:
-            print(e)
+        GPIO.output(self.pwm1, 0)
+        GPIO.output(self.pwm2, 1)
